@@ -1,0 +1,834 @@
+MDScreenManager:
+    current: "login"
+
+    LoginScreen:
+    DashboardScreen:
+    DataViewerScreen:
+
+
+<LoginScreen>:
+    name: "login"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: "32dp"
+        spacing: "14dp"
+
+        Widget:
+            size_hint_y: 0.25
+
+        MDLabel:
+            text: "MINEGUARD AI"
+            halign: "center"
+            font_style: "Headline"
+            role: "large"
+            size_hint_y: None
+            height: "60dp"
+
+        MDLabel:
+            text: "Mine Safety & Inspection System"
+            halign: "center"
+            theme_text_color: "Secondary"
+            font_style: "Body"
+            role: "medium"
+            size_hint_y: None
+            height: "32dp"
+
+        MDLabel:
+            text: "LOGIN CREDENTIALS"
+            halign: "center"
+            font_style: "Title"
+            role: "small"
+            size_hint_y: None
+            height: "34dp"
+
+        MDLabel:
+            text: "Email Address"
+            font_style: "Body"
+            role: "medium"
+            size_hint_y: None
+            height: "28dp"
+
+        MDTextField:
+            id: login_email
+            hint_text: "Enter your registered email address"
+            mode: "outlined"
+            size_hint_y: None
+            height: "56dp"
+
+        MDLabel:
+            text: "Example: mineguard.test@example.com"
+            theme_text_color: "Secondary"
+            font_style: "Body"
+            role: "small"
+            size_hint_y: None
+            height: "24dp"
+
+        MDLabel:
+            text: "Password"
+            font_style: "Body"
+            role: "medium"
+            size_hint_y: None
+            height: "28dp"
+
+        MDTextField:
+            id: login_password
+            hint_text: "Enter your account password"
+            mode: "outlined"
+            password: True
+            size_hint_y: None
+            height: "56dp"
+
+        MDLabel:
+            text: "Use the credentials provided for your MineGuard account."
+            halign: "center"
+            theme_text_color: "Secondary"
+            font_style: "Body"
+            role: "small"
+            size_hint_y: None
+            height: "30dp"
+
+        MDLabel:
+            id: login_status
+            text: ""
+            halign: "center"
+            theme_text_color: "Secondary"
+            size_hint_y: None
+            height: "40dp"
+
+        MDButton:
+            style: "filled"
+            pos_hint: {"center_x": 0.5}
+            size_hint_x: 0.8
+            size_hint_y: None
+            height: "48dp"
+            on_release: app.login_user()
+
+            MDButtonText:
+                text: "LOGIN"
+
+        Widget:
+            size_hint_y: 0.25
+
+
+<DashboardScreen>:
+    name: "dashboard"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: "16dp"
+        spacing: "10dp"
+
+        # Fixed application header
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint_y: None
+            height: "82dp"
+            spacing: "2dp"
+
+            MDLabel:
+                text: "MINEGUARD AI"
+                halign: "center"
+                font_style: "Headline"
+                role: "small"
+                size_hint_y: None
+                height: "36dp"
+
+            MDLabel:
+                id: user_info_label
+                text: "Not logged in"
+                halign: "center"
+                theme_text_color: "Secondary"
+                font_style: "Body"
+                role: "small"
+                size_hint_y: None
+                height: "28dp"
+
+        ScrollView:
+            id: dashboard_scroll
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: "5dp"
+            scroll_type: ["bars", "content"]
+
+            MDBoxLayout:
+                orientation: "vertical"
+                spacing: "24dp"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "2dp"
+
+                MDLabel:
+                    text: "INSPECTION WORKSPACE"
+                    font_style: "Headline"
+                    role: "small"
+                    size_hint_y: None
+                    height: "38dp"
+
+                MDLabel:
+                    text: "Follow the steps below. Enter field readings, record observations, attach evidence, then save."
+                    theme_text_color: "Secondary"
+                    font_style: "Body"
+                    role: "small"
+                    size_hint_y: None
+                    height: "34dp"
+
+                # 1. ASSIGNED MINE
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_x: 0.98
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_y: None
+                    height: "182dp"
+                    padding: "14dp"
+                    spacing: "8dp"
+                    radius: [14, 14, 14, 14]
+
+                    MDLabel:
+                        text: "1. ASSIGNED MINE"
+                        font_style: "Title"
+                        role: "small"
+                        size_hint_y: None
+                        height: "28dp"
+
+                    MDLabel:
+                        text: "Select the mine you are inspecting."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "24dp"
+
+                    Spinner:
+                        id: mine_selector
+                        text: "Select Assigned Mine"
+                        values: []
+                        size_hint_y: None
+                        height: "46dp"
+                        on_text: app.select_mine(self.text)
+
+                    MDLabel:
+                        id: selected_mine_label
+                        text: "Assigned Mines: 0 | Selected Mine: None"
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "24dp"
+
+                # Hidden compatibility field used by main.py
+                MDTextField:
+                    id: mine_id_input
+                    opacity: 0
+                    disabled: True
+                    size_hint_y: None
+                    height: "0dp"
+
+                # 2. INSPECTION DETAILS
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "335dp"
+                    padding: "16dp"
+                    spacing: "8dp"
+                    radius: [14, 14, 14, 14]
+
+                    MDLabel:
+                        text: "2. INSPECTION DETAILS"
+                        font_style: "Title"
+                        role: "small"
+                        size_hint_y: None
+                        height: "30dp"
+
+                    MDLabel:
+                        text: "Choose the options that best describe the purpose and current status of this inspection."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "38dp"
+
+                    MDLabel:
+                        text: "Inspection Type"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "24dp"
+
+                    Spinner:
+                        id: type_input
+                        text: "Select Inspection Type"
+                        values: ["Routine Safety Inspection", "Special Inspection", "Accident / Incident Inspection", "Follow-up Inspection", "Statutory Inspection"]
+                        size_hint_y: None
+                        height: "46dp"
+
+                    MDLabel:
+                        text: "Select the type that best matches why this inspection is being carried out."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "30dp"
+
+                    MDLabel:
+                        text: "Inspection Status"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "24dp"
+
+                    Spinner:
+                        id: inspection_status_input
+                        text: "Select Inspection Status"
+                        values: ["Planned", "In Progress", "Completed", "Follow-up Required"]
+                        size_hint_y: None
+                        height: "46dp"
+
+                    Widget:
+                        size_hint_y: None
+                        height: "8dp"
+
+                # 3. SAFETY PARAMETERS
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_x: 0.98
+                    pos_hint: {"center_x": 0.5}
+                    size_hint_y: None
+                    height: "900dp"
+                    padding: "14dp"
+                    spacing: "8dp"
+                    radius: [14, 14, 14, 14]
+
+                    MDLabel:
+                        text: "3. SAFETY PARAMETERS"
+                        font_style: "Title"
+                        role: "small"
+                        size_hint_y: None
+                        height: "30dp"
+
+                    MDLabel:
+                        text: "Field readings"
+                        font_style: "Body"
+                        role: "medium"
+                        size_hint_y: None
+                        height: "26dp"
+
+                    MDLabel:
+                        text: "Enter the reading shown by the approved field instrument. Do not estimate."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "34dp"
+
+                    MDLabel:
+                        text: "ATMOSPHERIC MEASUREMENTS"
+                        font_style: "Body"
+                        role: "medium"
+                        size_hint_y: None
+                        height: "24dp"
+
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        spacing: "12dp"
+                        size_hint_y: None
+                        height: "88dp"
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            spacing: "3dp"
+
+                            MDLabel:
+                                text: "Oxygen (O₂)  •  %"
+                                font_style: "Body"
+                                role: "small"
+                                size_hint_y: None
+                                height: "24dp"
+
+                            MDTextField:
+                                id: oxygen_input
+                                hint_text: "Example: 20.8"
+                                helper_text: "Measured oxygen"
+                                mode: "outlined"
+                                input_filter: "float"
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            spacing: "3dp"
+
+                            MDLabel:
+                                text: "Methane (CH₄)  •  %"
+                                font_style: "Body"
+                                role: "small"
+                                size_hint_y: None
+                                height: "24dp"
+
+                            MDTextField:
+                                id: methane_input
+                                hint_text: "Example: 0.2"
+                                helper_text: "Measured methane"
+                                mode: "outlined"
+                                input_filter: "float"
+
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        spacing: "12dp"
+                        size_hint_y: None
+                        height: "88dp"
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            spacing: "3dp"
+
+                            MDLabel:
+                                text: "Carbon Monoxide (CO)  •  ppm"
+                                font_style: "Body"
+                                role: "small"
+                                size_hint_y: None
+                                height: "24dp"
+
+                            MDTextField:
+                                id: carbon_monoxide_input
+                                hint_text: "Example: 5"
+                                helper_text: "Measured CO"
+                                mode: "outlined"
+                                input_filter: "float"
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            spacing: "3dp"
+
+                            MDLabel:
+                                text: "Temperature  •  °C"
+                                font_style: "Body"
+                                role: "small"
+                                size_hint_y: None
+                                height: "24dp"
+
+                            MDTextField:
+                                id: temperature_input
+                                hint_text: "Example: 28"
+                                helper_text: "Measured temperature"
+                                mode: "outlined"
+                                input_filter: "float"
+
+                    MDLabel:
+                        text: "MINE-CONDITION OBSERVATIONS"
+                        font_style: "Body"
+                        role: "medium"
+                        size_hint_y: None
+                        height: "24dp"
+
+                    MDLabel:
+                        text: "Select the condition that best matches what you observed."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "32dp"
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: "3dp"
+                        size_hint_y: None
+                        height: "76dp"
+
+                        MDLabel:
+                            text: "Ventilation"
+                            font_style: "Body"
+                            role: "small"
+                            size_hint_y: None
+                            height: "24dp"
+
+                        Spinner:
+                            id: ventilation_input
+                            text: "Select status"
+                            values: ["Normal", "Attention", "Critical"]
+                            size_hint_y: None
+                            height: "44dp"
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: "3dp"
+                        size_hint_y: None
+                        height: "76dp"
+
+                        MDLabel:
+                            text: "Roof / Ground Condition"
+                            font_style: "Body"
+                            role: "small"
+                            size_hint_y: None
+                            height: "24dp"
+
+                        Spinner:
+                            id: ground_condition_input
+                            text: "Select condition"
+                            values: ["Safe", "Attention", "Critical"]
+                            size_hint_y: None
+                            height: "44dp"
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: "3dp"
+                        size_hint_y: None
+                        height: "76dp"
+
+                        MDLabel:
+                            text: "Electrical Safety"
+                            font_style: "Body"
+                            role: "small"
+                            size_hint_y: None
+                            height: "24dp"
+
+                        Spinner:
+                            id: electrical_safety_input
+                            text: "Select condition"
+                            values: ["Safe", "Attention", "Critical"]
+                            size_hint_y: None
+                            height: "44dp"
+
+                    MDLabel:
+                        text: "Normal / Safe = satisfactory   •   Attention = needs review   •   Critical = serious or potentially unsafe."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "40dp"
+
+                    MDLabel:
+                        text: "Regulatory limits and risk thresholds will be applied during validation. This section records the inspector's field readings and observations."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "64dp"
+                        text_size: self.width, None
+                        valign: "top"
+
+                    Widget:
+                        size_hint_y: None
+                        height: "12dp"
+
+                # 4. OBSERVATION & INCIDENT CAPTURE
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "410dp"
+                    padding: "16dp"
+                    spacing: "8dp"
+                    radius: [14, 14, 14, 14]
+
+                    MDLabel:
+                        text: "4. OBSERVATION & INCIDENT CAPTURE"
+                        font_style: "Title"
+                        role: "small"
+                        size_hint_y: None
+                        height: "30dp"
+
+                    MDLabel:
+                        text: "Record the hazard, incident, or safety observation found during this inspection."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "34dp"
+
+                    MDLabel:
+                        text: "Observation Category"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "24dp"
+
+                    Spinner:
+                        id: obs_category
+                        text: "Select Observation Category"
+                        values: ["Ventilation", "Roof / Ground", "Electrical", "Machinery / Equipment", "Personal Protective Equipment", "Fire / Emergency", "Dust / Air Quality", "Other"]
+                        size_hint_y: None
+                        height: "46dp"
+
+                    MDLabel:
+                        text: "Choose the category that best describes what you observed."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "28dp"
+
+                    MDLabel:
+                        text: "Severity"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "24dp"
+
+                    Spinner:
+                        id: obs_severity
+                        text: "Select Severity"
+                        values: ["Low", "Medium", "High", "Critical"]
+                        size_hint_y: None
+                        height: "46dp"
+
+                    MDLabel:
+                        text: "Use the severity that best represents the seriousness of the observed condition."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "28dp"
+
+                    MDLabel:
+                        text: "Observation Description"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "24dp"
+
+                    MDTextField:
+                        id: obs_description
+                        hint_text: "Describe what you observed, where it was found, and the immediate concern."
+                        mode: "outlined"
+                        multiline: True
+                        size_hint_y: None
+                        height: "78dp"
+
+                    MDLabel:
+                        text: "Tip: Be specific. Include the location, condition observed, and immediate concern."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "32dp"
+
+                # 5. FIELD EVIDENCE
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "325dp"
+                    padding: "16dp"
+                    spacing: "8dp"
+                    radius: [14, 14, 14, 14]
+
+                    MDLabel:
+                        text: "5. FIELD EVIDENCE"
+                        font_style: "Title"
+                        role: "small"
+                        size_hint_y: None
+                        height: "30dp"
+
+                    MDLabel:
+                        text: "Capture location and photographic evidence when available."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "28dp"
+
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        spacing: "10dp"
+                        size_hint_y: None
+                        height: "50dp"
+
+                        MDButton:
+                            style: "tonal"
+                            size_hint_x: 0.5
+                            on_release: app.capture_mock_gps()
+
+                            MDButtonText:
+                                text: "GET GPS LOCATION"
+
+                        MDButton:
+                            style: "tonal"
+                            size_hint_x: 0.5
+                            on_release: app.capture_mock_photo()
+
+                            MDButtonText:
+                                text: "TAKE PHOTO"
+
+                    MDLabel:
+                        text: "GPS guidance: Capture the inspection location when coordinates are available."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "30dp"
+
+                    MDLabel:
+                        id: gps_label
+                        text: "GPS: Waiting for capture"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "26dp"
+
+                    MDLabel:
+                        text: "Photo guidance: Take a clear photo when visual evidence helps document the condition."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "30dp"
+
+                    MDLabel:
+                        id: photo_label
+                        text: "Photo: None"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "26dp"
+
+                # 6. SAVE & SYNCHRONIZE
+                MDCard:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "455dp"
+                    padding: "16dp"
+                    spacing: "8dp"
+                    radius: [14, 14, 14, 14]
+
+                    MDLabel:
+                        text: "6. SAVE & SYNCHRONIZE"
+                        font_style: "Title"
+                        role: "small"
+                        size_hint_y: None
+                        height: "30dp"
+
+                    MDLabel:
+                        text: "Save the inspection on this device first. Synchronize it with the cloud when internet access is available."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "42dp"
+
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        spacing: "10dp"
+                        size_hint_y: None
+                        height: "58dp"
+
+                        MDButton:
+                            style: "filled"
+                            size_hint_x: 0.5
+                            on_release: app.process_complete_inspection()
+
+                            MDButtonText:
+                                text: "SAVE OFFLINE"
+
+                        MDButton:
+                            style: "tonal"
+                            size_hint_x: 0.5
+                            on_release: app.trigger_cloud_sync_from_ui()
+
+                            MDButtonText:
+                                text: "SYNC WITH CLOUD"
+
+                    MDLabel:
+                        text: "SAVE OFFLINE: Use this after completing the inspection. Your data is kept on this device."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "38dp"
+
+                    MDLabel:
+                        text: "SYNC WITH CLOUD: Use this when an authenticated internet connection is available."
+                        theme_text_color: "Secondary"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "38dp"
+
+                    MDLabel:
+                        id: validation_status_label
+                        text: ""
+                        theme_text_color: "Error"
+                        font_style: "Body"
+                        role: "small"
+                        size_hint_y: None
+                        height: "185dp"
+                        valign: "top"
+                        text_size: self.width, None
+
+                # 7. STORED DATA
+                MDCard:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: "105dp"
+                    padding: "16dp"
+                    spacing: "12dp"
+                    radius: [14, 14, 14, 14]
+
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: "2dp"
+
+                        MDLabel:
+                            text: "7. STORED DATA"
+                            font_style: "Title"
+                            role: "small"
+                            size_hint_y: None
+                            height: "30dp"
+
+                        MDLabel:
+                            text: "View inspections saved on this device."
+                            theme_text_color: "Secondary"
+                            font_style: "Body"
+                            role: "small"
+
+                    MDButton:
+                        style: "text"
+                        size_hint_x: None
+                        width: "230dp"
+                        on_release:
+                            root.manager.current = "viewer"
+                            app.load_local_stored_data()
+
+                        MDButtonText:
+                            text: "VIEW SAVED INSPECTIONS  →"
+
+                Widget:
+                    size_hint_y: None
+                    height: "24dp"
+
+
+<DataViewerScreen>:
+    name: "viewer"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: "12dp"
+        spacing: "10dp"
+
+        MDBoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: "48dp"
+
+            MDButton:
+                style: "text"
+                on_release: root.manager.current = "dashboard"
+
+                MDButtonText:
+                    text: "← BACK"
+
+            MDLabel:
+                text: "OFFLINE DATA VIEWER"
+                halign: "center"
+                font_style: "Title"
+                role: "medium"
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: "6dp"
+            scroll_type: ["bars", "content"]
+
+            MDBoxLayout:
+                id: logs_container
+                orientation: "vertical"
+                spacing: "8dp"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "4dp"

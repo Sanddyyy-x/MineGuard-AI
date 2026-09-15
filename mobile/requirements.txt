@@ -1,0 +1,5 @@
+kivy
+kivymd
+supabase
+python-dotenv
+requests

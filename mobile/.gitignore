@@ -1,0 +1,21 @@
+# Environment secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Local database
+*.db
+*.sqlite
+*.sqlite3
+
+# Local photos
+images/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
