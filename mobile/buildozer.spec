@@ -35,6 +35,7 @@ android.api = 35
 
 # (str) Android minimum API
 android.minapi = 23
+android.accept_sdk_license = True
 
 # (str) Android architecture
 android.arch = arm64-v8a
