@@ -1,20 +1,57 @@
 'use client';
 
 import { useState } from 'react';
-import { Menu, Search, Bell, ChevronDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Menu, Search, Bell, ChevronDown, LogOut, Loader2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { mockAlerts } from '@/lib/mock-data';
+import { useAuth } from '@/components/auth/auth-provider';
 
 interface HeaderProps {
   onMenuClick: () => void;
 }
 
+function getInitials(name: string | null | undefined) {
+  const value = name?.trim();
+
+  if (!value) return 'MG';
+
+  const parts = value.split(/\s+/).filter(Boolean);
+
+  if (parts.length === 1) {
+    return parts[0].slice(0, 2).toUpperCase();
+  }
+
+  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+}
+
 export function Header({ onMenuClick }: HeaderProps) {
+  const router = useRouter();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
+  const { profile, signOut } = useAuth();
+
   const unacknowledgedAlerts = mockAlerts.filter((a) => !a.acknowledged);
+  const displayName = profile?.full_name?.trim() || 'MineGuard User';
+  const displayRole = profile?.role || 'User';
+  const initials = getInitials(profile?.full_name);
+
+  async function handleSignOut() {
+    if (signingOut) return;
+
+    setSigningOut(true);
+
+    try {
+      await signOut();
+      router.replace('/login');
+    } catch {
+      setSigningOut(false);
+    }
+  }
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border bg-card px-4 lg:px-6">
@@ -101,15 +138,63 @@ export function Header({ onMenuClick }: HeaderProps) {
         </div>
 
         {/* User menu */}
-        <div className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-muted/50">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-            RA
-          </div>
-          <div className="hidden flex-col sm:flex">
-            <span className="text-sm font-medium leading-tight">Rajesh Agarwal</span>
-            <span className="text-xs text-muted-foreground leading-tight">Compliance Officer</span>
-          </div>
-          <ChevronDown className="hidden h-4 w-4 text-muted-foreground sm:block" />
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setShowUserMenu((s) => !s)}
+            className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-muted/50"
+            aria-haspopup="menu"
+            aria-expanded={showUserMenu}
+            disabled={signingOut}
+          >
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
+              {initials}
+            </div>
+            <div className="hidden flex-col text-left sm:flex">
+              <span className="text-sm font-medium leading-tight">{displayName}</span>
+              <span className="text-xs text-muted-foreground leading-tight">{displayRole}</span>
+            </div>
+            <ChevronDown className="hidden h-4 w-4 text-muted-foreground sm:block" />
+          </button>
+
+          {showUserMenu && (
+            <>
+              <div
+                className="fixed inset-0 z-40"
+                onClick={() => setShowUserMenu(false)}
+                aria-hidden="true"
+              />
+              <div
+                className="absolute right-0 top-full z-50 mt-2 w-64 rounded-lg border border-border bg-popover p-2 shadow-lg"
+                role="menu"
+              >
+                <div className="border-b border-border px-3 py-2">
+                  <p className="truncate text-sm font-medium">{displayName}</p>
+                  <p className="truncate text-xs text-muted-foreground">{displayRole}</p>
+                  {profile?.email && (
+                    <p className="mt-1 truncate text-xs text-muted-foreground">
+                      {profile.email}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() => void handleSignOut()}
+                  className="mt-2 flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                  disabled={signingOut}
+                >
+                  {signingOut ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <LogOut className="h-4 w-4" />
+                  )}
+                  {signingOut ? 'Signing out...' : 'Sign out'}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </header>

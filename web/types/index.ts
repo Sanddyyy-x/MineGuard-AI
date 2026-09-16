@@ -1,4 +1,4 @@
-export type MineStatus = 'active' | 'suspended' | 'under_review' | 'closed';
+export type MineStatus = 'active' | 'suspended' | 'under_review' | 'closed' | 'as_documented';
 
 export type ComplianceLevel = 'compliant' | 'warning' | 'critical';
 
@@ -31,20 +31,20 @@ export interface Mine {
   location: string;
   state: string;
   district: string;
-  coalGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G';
+  coalGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | null;
   type: 'opencast' | 'underground' | 'mixed';
   status: MineStatus;
   complianceScore: number;
   complianceLevel: ComplianceLevel;
-  workforce: number;
-  productionTarget: number;
-  productionAchieved: number;
+  workforce: number | null;
+  productionTarget: number | null;
+  productionAchieved: number | null;
   lastInspection: string;
-  nextInspection: string;
-  openViolations: number;
-  area: number;
-  operator: string;
-  reserves: number;
+  nextInspection: string | null;
+  openViolations: number | null;
+  area: number | null;
+  operator: string | null;
+  reserves: number | null;
 }
 
 export interface ComplianceItem {
@@ -68,12 +68,18 @@ export interface ComplianceRecord {
   dueDate: string;
   completionDate: string | null;
   status: ComplianceRecordStatus;
-  complianceScore: number;
+  complianceScore: number | null;
   remarks: string;
-  createdBy: string;
+  createdBy: string | null;
   createdAt: string;
   updatedAt: string;
-  dataSource: 'inspection' | 'self_report' | 'audit' | 'iot_sensor' | 'ai_analysis';
+  dataSource:
+  | 'inspection'
+  | 'self_report'
+  | 'audit'
+  | 'iot_sensor'
+  | 'ai_analysis'
+  | 'synthetic';
 }
 
 export interface Inspection {
@@ -140,7 +146,7 @@ export interface DashboardStats {
   totalMines: number;
   activeMines: number;
   complianceRate: number;
-  openViolations: number;
+  openViolations: number | null;
   pendingInspections: number;
   activeAlerts: number;
   totalObservations: number;

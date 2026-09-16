@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { navItems } from '@/lib/navigation';
 import { mockDashboardStats } from '@/lib/mock-data';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/components/auth/auth-provider';
 
 interface SidebarProps {
   open: boolean;
@@ -17,12 +18,21 @@ interface SidebarProps {
 
 const badgeMap: Record<string, number> = {
   activeAlerts: mockDashboardStats.activeAlerts,
-  openViolations: mockDashboardStats.openViolations,
+  openViolations: mockDashboardStats.openViolations ?? 0,
   pendingInspections: mockDashboardStats.pendingInspections,
 };
 
 export function Sidebar({ open, onClose }: SidebarProps) {
   const pathname = usePathname();
+  const { profile } = useAuth();
+  const displayName = profile?.full_name || 'MineGuard User';
+  const displayRole = profile?.role || 'User';
+  const initials = displayName
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('') || 'MG';
 
   return (
     <>
@@ -112,14 +122,14 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         <div className="border-t border-white/10 px-6 py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-sm font-semibold text-primary-foreground">
-              RA
+              {initials}
             </div>
             <div className="flex flex-col overflow-hidden">
               <span className="truncate text-sm font-medium text-primary-foreground">
-                Rajesh Agarwal
+                {displayName}
               </span>
               <span className="truncate text-xs text-primary-foreground/50">
-                Compliance Officer
+                {displayRole}
               </span>
             </div>
           </div>

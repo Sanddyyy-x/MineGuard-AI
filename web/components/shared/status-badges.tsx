@@ -52,6 +52,10 @@ const mineStatusConfig: Record<MineStatus, { label: string; className: string }>
     label: 'Closed',
     className: 'bg-muted text-muted-foreground border-border',
   },
+  as_documented: {
+    label: 'As Documented',
+    className: 'bg-muted text-muted-foreground border-border',
+  },
 };
 
 const inspectionStatusConfig: Record<InspectionStatus, { label: string; className: string }> = {
