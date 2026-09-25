@@ -6,7 +6,6 @@ import {
   Brain,
   CheckCircle2,
   Gauge,
-  Info,
   ListChecks,
   RefreshCw,
   Search,
@@ -115,18 +114,8 @@ export default function AiRiskPage() {
     <div className="animate-fade-in space-y-6">
       <PageHeader
         title="AI Risk Analysis"
-        description="Authoritative mine risk intelligence and AI-ready risk context from the existing MineGuard risk engine."
+        description="Review mine risk levels, key risk drivers, and recommended actions."
       />
-
-      <Alert>
-        <Info className="h-4 w-4" />
-        <AlertTitle>Database risk engine is the source of truth</AlertTitle>
-        <AlertDescription>
-          Risk scores, levels, drivers, recommendations, and escalation status below are read from
-          the existing <code>get_mine_risk_intelligence()</code> backend function. No risk score is
-          calculated or fabricated in the frontend.
-        </AlertDescription>
-      </Alert>
 
       {error && (
         <Alert variant="destructive">
@@ -191,7 +180,7 @@ export default function AiRiskPage() {
             <Card className="lg:col-span-2">
               <CardHeader>
                 <CardTitle className="text-lg">Mine Risk Ranking</CardTitle>
-                <CardDescription>Live risk scores returned by the backend, highest first</CardDescription>
+                <CardDescription>Current risk scores across monitored mines</CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -302,7 +291,7 @@ export default function AiRiskPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">Risk Drivers</CardTitle>
-                  <CardDescription>Drivers returned by the risk-intelligence function</CardDescription>
+                  <CardDescription>Key factors contributing to the mine's risk level</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {selected.riskDrivers.length ? (
@@ -323,7 +312,7 @@ export default function AiRiskPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">Recommendations</CardTitle>
-                  <CardDescription>Actions returned by the risk-intelligence function</CardDescription>
+                  <CardDescription>Recommended actions based on the current risk assessment</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {selected.recommendations.length ? (
@@ -351,7 +340,7 @@ export default function AiRiskPage() {
                   AI Risk Context
                 </CardTitle>
                 <CardDescription>
-                  Controlled context supplied by the backend for the Gemini interpretation layer. The context does not override the database risk score.
+                  Additional context supporting the risk assessment for this mine.
                 </CardDescription>
               </CardHeader>
               <CardContent>

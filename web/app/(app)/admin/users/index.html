@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AirGuard | Smart AQI Monitoring</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+
+        <div class="logo">
+            🌍 AirGuard
+        </div>
+
+        <button id="themeBtn">
+            🌙 Dark Mode
+        </button>
+
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+
+        <h1>Smart AQI Monitoring</h1>
+
+        <h2>&amp; Health Advisory System</h2>
+
+        <p>
+            Search the Air Quality Index of any city and get
+            health advice along with environmental tips.
+        </p>
+
+    </section>
+
+    <!-- Search -->
+    <section class="search-section">
+
+        <div class="search-card">
+
+            <h2>🔍 Check AQI of Any City</h2>
+
+            <input
+                type="text"
+                id="city"
+                placeholder="Enter City Name">
+
+            <button id="searchBtn">
+                Search
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- Loader -->
+    <div id="loader" class="loader-container">
+
+        <div class="loader"></div>
+
+        <p>Loading Air Quality...</p>
+
+    </div>
+
+    <!-- Recent Searches -->
+    <section class="result-card">
+
+        <h2>🕒 Recent Searches</h2>
+
+        <div id="recentSearches">
+
+            <p>No recent searches.</p>
+
+        </div>
+
+    </section>
+
+    <!-- AQI Alert -->
+    <div id="aqiAlert" class="aqi-alert">
+
+        <span id="alertIcon">🌍</span>
+
+        <span id="alertText">Air Quality Alert</span>
+
+    </div>
+    <!-- Dashboard -->
+    <section class="dashboard">
+
+        <!-- Air Quality -->
+        <div class="dashboard-card">
+
+            <h2>🌍 Air Quality</h2>
+
+            <div id="aqi-circle">
+                <span id="aqi">--</span>
+            </div>
+
+            <div class="aqi-bar">
+                <div id="aqi-fill"></div>
+            </div>
+
+            <p id="location">📍 --</p>
+
+            <h3 id="status">Status : --</h3>
+
+            <p id="advice">
+                Enter a city to check the air quality.
+            </p>
+
+        </div>
+
+        <!-- Weather -->
+        <div class="dashboard-card">
+
+            <h2>🌤 Weather</h2>
+
+            <p id="temp">🌡️ Temperature : -- °C</p>
+
+            <p id="humidity">💧 Humidity : -- %</p>
+
+            <p id="wind">🌬️ Wind Speed : -- m/s</p>
+
+        </div>
+
+        <!-- Pollutants -->
+        <div class="dashboard-card">
+
+            <h2>🧪 Pollutants</h2>
+
+            <div class="pollutant-grid">
+
+                <div class="pollutant-box" id="pm25">
+                    🌫️ PM2.5 : --
+                </div>
+
+                <div class="pollutant-box" id="pm10">
+                    🌫️ PM10 : --
+                </div>
+
+                <div class="pollutant-box" id="co">
+                    🟤 CO : --
+                </div>
+
+                <div class="pollutant-box" id="no2">
+                    🟠 NO₂ : --
+                </div>
+
+                <div class="pollutant-box" id="so2">
+                    🟡 SO₂ : --
+                </div>
+
+                <div class="pollutant-box" id="o3">
+                    🔵 O₃ : --
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- AQI Trend -->
+    <section class="result-card">
+
+        <h2>📈 AQI Trend</h2>
+
+        <canvas id="aqiChart" height="120"></canvas>
+
+    </section>
+
+    <!-- AirGuard Map -->
+    <section class="result-card">
+
+        <h2>🗺️ AirGuard Map</h2>
+
+        <div id="map"></div>
+
+    </section>
+    <!-- Features -->
+    <section class="features">
+
+        <div class="box" id="healthBtn">
+
+            ❤️
+
+            <h3>Health Advice</h3>
+
+        </div>
+
+        <div class="box" id="natureBtn">
+
+            🌱
+
+            <h3>Nature Tips</h3>
+
+        </div>
+
+    </section>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">
+
+        <div class="popup-content">
+
+            <span id="closePopup">&times;</span>
+
+            <h2 id="popupTitle"></h2>
+
+            <div id="popupBody"></div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        Made with ❤️ by Abul Kalam
+    </footer>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>

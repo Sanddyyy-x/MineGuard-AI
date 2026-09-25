@@ -12,6 +12,7 @@ import {
   Brain,
   FileBarChart,
   Settings,
+  UsersRound,
 } from 'lucide-react';
 
 export interface NavItem {
@@ -34,4 +35,5 @@ export const navItems: NavItem[] = [
   { label: 'AI Risk Analysis', href: '/ai-risk', icon: Brain },
   { label: 'Reports', href: '/reports', icon: FileBarChart },
   { label: 'Settings', href: '/settings', icon: Settings },
+  { label: 'User Management', href: '/admin/users', icon: UsersRound },
 ];

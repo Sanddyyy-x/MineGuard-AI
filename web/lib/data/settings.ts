@@ -40,6 +40,28 @@ export async function getSettingsProfile(userId: string): Promise<SettingsProfil
   return data as SettingsProfile;
 }
 
+
+export async function updateMyProfile(
+  fullName: string,
+  organization: string
+): Promise<SettingsProfile> {
+  const { data, error } = await supabase.rpc('update_my_profile', {
+    p_full_name: fullName,
+    p_organization: organization,
+  });
+
+  if (error) {
+    throw new Error(getErrorMessage(error, 'Unable to update your profile.'));
+  }
+
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row) {
+    throw new Error('Unable to update your profile.');
+  }
+
+  return row as SettingsProfile;
+}
+
 export async function getSettingsPermissions(role: string | null): Promise<SettingsPermission[]> {
   if (!role) return [];
 
@@ -107,12 +129,4 @@ export async function getSettingsMineAssignments(userId: string): Promise<Settin
       };
     })
     .filter((assignment): assignment is SettingsMineAssignment => assignment !== null);
-}
-
-export async function updatePassword(newPassword: string) {
-  const { error } = await supabase.auth.updateUser({ password: newPassword });
-
-  if (error) {
-    throw new Error(getErrorMessage(error, 'Unable to update your password.'));
-  }
 }

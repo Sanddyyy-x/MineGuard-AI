@@ -76,7 +76,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <ul className="space-y-1">
-            {navItems.map((item) => {
+            {navItems.filter((item) => item.href !== '/admin/users' || profile?.role === 'Admin').map((item) => {
               const isActive =
                 pathname === item.href || pathname.startsWith(item.href + '/');
               const Icon = item.icon;

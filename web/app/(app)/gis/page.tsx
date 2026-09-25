@@ -8,7 +8,6 @@ import {
   ZoomOut,
   Maximize2,
   MapPin,
-  Info,
   Building2,
   X,
   AlertTriangle,
@@ -197,10 +196,10 @@ export default function GisPage() {
 
   return (
     <div className="animate-fade-in space-y-6">
-      <PageHeader
-        title="GIS / Mine Map"
-        description="Geographic view of the monitored mine boundaries and locations recorded in Supabase."
-      />
+<PageHeader
+  title="GIS / Mine Map"
+  description="Geographic view of the monitored mine boundaries and locations."
+/>
 
       {error && (
         <Alert variant="destructive">
@@ -214,16 +213,6 @@ export default function GisPage() {
           </AlertDescription>
         </Alert>
       )}
-
-      <Alert>
-        <Info className="h-4 w-4" />
-        <AlertTitle>Authoritative spatial data</AlertTitle>
-        <AlertDescription>
-          Mine boundaries are read directly from the existing <code>mine_boundary</code> PostGIS
-          geography column. No approximate coordinates or synthetic mine locations are used.
-        </AlertDescription>
-      </Alert>
-
       <Card className="p-4">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
           <div className="relative flex-1">
@@ -438,13 +427,8 @@ export default function GisPage() {
                   </p>
                 </div>
                 <div className="space-y-2.5"></div>
-                  {selectedMine.status && (
-                    <MineStatusBadge
-                      status={
-                        selectedMine.status.toLowerCase().replace(/\s+/g, "_") as never
-                      }
-                    />
-                  )}
+                  
+                 
                 <div className="space-y-2.5 divide-y divide-border">
                   <div className="flex items-center justify-between pt-2 text-sm first:pt-0">
                     <span className="inline-flex items-center gap-1.5 text-muted-foreground">
